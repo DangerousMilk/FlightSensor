@@ -9,6 +9,7 @@ float xOut, yOut, zOut;
 // Barometer
 MS5611 MS5611(0x77);
 float altitude;
+float zeroAltitude;
 float pressure;
 float temperature;
 
@@ -114,7 +115,7 @@ void loop() {
   readButtonState();
   tryLog();
 
-  delay(50);
+  delay(20);
 }
 
 void tryLog()
@@ -126,7 +127,7 @@ void tryLog()
   logFile.print(",");
   logFile.print(pressure);
   logFile.print(",");
-  logFile.print(altitude);
+  logFile.print(altitude - zeroAltitude);
   logFile.print(",");
   logFile.print(temperature);
   logFile.print(",");
@@ -171,6 +172,7 @@ void readButtonState()
     }
     else
     {
+      zeroAltitude = altitude;
       startRecording();
     }
   }
